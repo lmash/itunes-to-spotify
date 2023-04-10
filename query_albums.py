@@ -41,7 +41,7 @@ def _partial_album_replacement(replacement: Replace, db):
         print(f"Partial replacement for {replacement.source} in {row['album_search_api']}")
         name = row['album_search_api']
         replaced = name.replace(replacement.source, replacement.target).strip()
-        # db.update({'album_search_api': replaced}, doc_ids=(row.__dict__['doc_id'],))
+        db.update({'album_search_api': replaced}, doc_ids=(row.__dict__['doc_id'],))
 
 
 def replace_partial(replacements: List, db, search_type='album'):
@@ -51,14 +51,6 @@ def replace_partial(replacements: List, db, search_type='album'):
     for replacement in replacements:
         if search_type == 'album':
             _partial_album_replacement(replacement, db)
-        # Rows = Query()
-        # rows = db.search(Rows.album_search_api.search(replacement.source))
-        #
-        # for row in rows:
-        #     print(f"Partial replacement for {replacement.source} in {row['album_search_api']}")
-        #     name = row['album_search_api']
-        #     replaced = name.replace(replacement.source, replacement.target).strip()
-        #     db.update({'album_search_api': replaced}, doc_ids=(row.__dict__['doc_id'],))
 
 
 def display_varying_albums(db):
