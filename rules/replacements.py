@@ -29,5 +29,6 @@ album_partial = [
     Replace(search_source=r'\(Deluxe Version\)', source='(Deluxe Version)', target=''),
     Replace(search_source=r'The Best Of Bob Dylan I', source='The Best Of Bob Dylan I', target='The Best Of Bob Dylan'),
     Replace(search_source=r'Diarios De Motocicleta: Original Motion Picture Soundtrack', source='Diarios De Motocicleta: Original Motion Picture Soundtrack', target='Motorcycle Diaries'),
+    Replace(search_source=r'The Essential Aerosmith', source='The Essential Aerosmith', target='The Very Best of Aerosmith'),
 ]
 

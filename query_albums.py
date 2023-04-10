@@ -34,8 +34,7 @@ db = TinyDB(filepath / db_name)
 # unique_albums()
 
 def _partial_album_replacement(replacement: Replace, db):
-    Rows = Query()
-    rows = db.search(Rows.album_search_api.search(replacement.search_source))
+    rows = db.search(Query().album_search_api.search(replacement.search_source))
 
     for row in rows:
         print(f"Partial replacement for {replacement.source} in {row['album_search_api']}")
