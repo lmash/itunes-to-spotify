@@ -3,30 +3,6 @@ from tinydb import TinyDB
 from enums import filepath, db_name, Field, Category
 
 
-def display_varying_albums(database):
-    """Search album differs from apple album"""
-    distinct = set()
-
-    for row in database.all():
-        if row['album_apple'] != row['album_search_api']:
-            distinct.add((row['album_apple'], row['album_search_api']))
-
-    for item in distinct:
-        print(f"Apple album: {item[0]} Search album: {item[1]}")
-
-
-def display_varying_tracks(database):
-    """Search track differs from apple track"""
-    distinct = set()
-
-    for row in database.all():
-        if row['track_apple'] != row['track_search_api']:
-            distinct.add((row['track_apple'], row['track_search_api']))
-
-    for item in distinct:
-        print(f"Apple track: {item[0]} Search track: {item[1]}")
-
-
 def display_varying(database, field, category):
     """Search category differs from apple track"""
     distinct = set()
@@ -92,7 +68,7 @@ if __name__ == '__main__':
     # display_genres(db)
 
     # Varying
-    # display_varying(db, db_field, category=db_category.artist)
+    display_varying(db, db_field, category=db_category.artist)
     # display_varying(db, db_field, category=db_category.track)
-    display_varying(db, db_field, category=db_category.album)
+    # display_varying(db, db_field, category=db_category.album)
 

@@ -30,3 +30,6 @@ cover/
 # Pycharm
 .DS_Store
 .idea/
+
+# Database
+*.json

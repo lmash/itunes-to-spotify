@@ -7,13 +7,19 @@ from rules.replacements import Replace
 db = TinyDB(filepath / db_name)
 
 
-def _partial_replacement(replacement: Replace, db, search_api: str):
-    rows = None
-
+def get_rows(replacement: Replace, db, search_api: str):
     if search_api == 'album_search_api':
         rows = db.search(Query().album_search_api.search(replacement.search_source))
     elif search_api == 'track_search_api':
         rows = db.search(Query().track_search_api.search(replacement.search_source))
+    else:
+        rows = db.search(Query().artist_search_api.search(replacement.search_source))
+
+    return rows
+
+
+def _partial_replacement(replacement: Replace, db, search_api: str):
+    rows = get_rows(replacement=replacement, db=db, search_api=search_api)
 
     if not replacement.source:
         replacement.source = replacement.search_source
@@ -31,3 +37,24 @@ def replace_partial(replacements: List, db, search_api: str):
     """
     for replacement in replacements:
         _partial_replacement(replacement, db, search_api=search_api)
+
+
+def _full_replacement(replacement: Replace, db, search_api: str):
+    rows = get_rows(replacement=replacement, db=db, search_api=search_api)
+
+    if not replacement.source:
+        replacement.source = replacement.search_source
+
+    for row in rows:
+        # Only replace if full match as query brings back partial matches as well
+        if replacement.source == row[search_api]:
+            print(f"Full replacement for {replacement.source} in {row[search_api]}")
+            db.update({search_api: replacement.target}, doc_ids=(row.__dict__['doc_id'],))
+
+
+def replace_full(replacements: List, db, search_api: str):
+    """
+    Partial replacements as defined in replacements dataclass
+    """
+    for replacement in replacements:
+        _full_replacement(replacement, db, search_api=search_api)

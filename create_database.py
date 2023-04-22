@@ -15,21 +15,24 @@ def read_csv():
 
         for row in reader:
             db_row = {
-                'track_apple': row['Track'],
-                'track_search_api': row['Track'],
-                'track_spotify': '',
-                'track_uri': '',
-                'artist_apple': row['Artist'],
-                'artist_search_api': row['Artist'],
-                'artist_spotify': '',
-                'artist_uri': '',  # When populated will be a list for multiple
-                'album_apple': row['Album'],
-                'album_search_api': row['Album'],
-                'album_spotify': '',
-                'album_uri': '',
-                'genre_apple': row['AppleGenre'],
-                'genre_spotify': '',
-                'single': False,
+                field.track_apple: row['Track'],
+                field.track_search_api: row['Track'],
+                field.track_spotify: '',
+                field.track_uri: '',
+                field.track_skip: False,
+                field.artist_apple: row['Artist'],
+                field.artist_search_api: row['Artist'],
+                field.artist_spotify: '',
+                field.artist_uri: '',  # When populated will be a list for multiple
+                field.artist_skip: False,
+                field.album_apple: row['Album'],
+                field.album_search_api: row['Album'],
+                field.album_spotify: '',
+                field.album_uri: '',
+                field.album_skip: False,
+                field.genre_apple: row['AppleGenre'],
+                field.genre_spotify: '',
+                field.single: False,
             }
             db.insert(db_row)
 
