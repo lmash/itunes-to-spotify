@@ -28,6 +28,7 @@ def read_csv():
                 'album_uri': '',
                 'genre_apple': row['AppleGenre'],
                 'genre_spotify': '',
+                'single': False,
             }
             db.insert(db_row)
 

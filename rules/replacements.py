@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 @dataclass
 class Replace:
-    search_source: str
-    source: str
+    search_source: str   # Regex search to identify all DB rows
     target: str
-    is_partial: bool = True
+    source: str = None   # String search for search replace logic, default to search_source if not specified
+
 
 
 """
@@ -32,3 +32,22 @@ album_partial = [
     Replace(search_source=r'The Essential Aerosmith', source='The Essential Aerosmith', target='The Very Best of Aerosmith'),
 ]
 
+track_partial = [
+    Replace(search_source=r"'", source="'", target=' '),
+    # This is a workaround to handle a search issue with single quotes https://github.com/spotipy-dev/spotipy/issues/726
+    Replace(search_source=r'Bee Gees / ', target=''),
+    Replace(search_source=r'\(Remastered\)', source='(Remastered)', target=''),
+    Replace(search_source=r'\(Full Version\)', source='(Full Version)', target=''),
+    Replace(search_source=r'Bad Company / ', target=''),
+    Replace(search_source=r'The Eagles / ', target=''),
+    Replace(search_source=r'Alannah Myles / ', target=''),
+    Replace(search_source=r'The Flat Cap / ', target=''),
+    Replace(search_source=r'Karyn White / ', target=''),
+    Replace(search_source=r'\(Long Version\)', source='(Long Version)', target=''),
+    Replace(search_source=r' \(Live from the BRITs\)', source=' (Live from the BRITs)', target=''),
+    Replace(search_source=r'\(Remastered 2018\)', source='(Remastered 2018)', target=''),
+    Replace(search_source=r'Z\. 570 "Moor''s Revenge"', source='Z. 570 "Moor''s Revenge"', target='Z.570'),
+    Replace(search_source=r'\(Single Version\) \[Mono\]', source='(Single Version) [Mono]', target=''),
+    Replace(search_source=r'Don t Stop Beleiving', target='Don t Stop Believing'),
+    Replace(search_source=r'Are You Gunna Be My Girl', target='Are You Gonna Be My Girl'),
+]
