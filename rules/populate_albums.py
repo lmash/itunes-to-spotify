@@ -42,5 +42,5 @@ def identify_singles(db):
 
 
 if __name__ == '__main__':
-    # replace_partial(replacements=album_partial, db=db)
+    # replace_partial(replacements=album_partial, db=db, search_api='album_search_api')
     identify_singles(db=db)

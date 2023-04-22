@@ -1,6 +1,6 @@
 from tinydb import TinyDB
 
-from enums import filepath, db_name
+from enums import filepath, db_name, Field, Category
 
 
 def display_varying_albums(database):
@@ -25,6 +25,31 @@ def display_varying_tracks(database):
 
     for item in distinct:
         print(f"Apple track: {item[0]} Search track: {item[1]}")
+
+
+def display_varying(database, field, category):
+    """Search category differs from apple track"""
+    distinct = set()
+    apple, search_api = '', ''
+
+    if category == Category.track:
+        apple = field.track_apple
+        search_api = field.track_search_api
+    elif category == Category.artist:
+        apple = field.artist_apple
+        search_api = field.artist_search_api
+    elif category == Category.album:
+        apple = field.album_apple
+        search_api = field.album_search_api
+    else:
+        print(f'category {category} not handled')
+
+    for row in database.all():
+        if row[apple] != row[search_api]:
+            distinct.add((row[apple], row[search_api]))
+
+    for item in distinct:
+        print(f"Apple {category}: {item[0]} Search {category}: {item[1]}")
 
 
 def display_all_albums(database):
@@ -60,9 +85,14 @@ def display_genres(database):
 
 if __name__ == '__main__':
     db = TinyDB(filepath / db_name)
-    # display_varying_albums(db)
+    db_field = Field()
+    db_category = Category()
     # display_all_albums(db)
     # display_albums_with_single(db)
     # display_genres(db)
-    display_varying_tracks(db)
+
+    # Varying
+    # display_varying(db, db_field, category=db_category.artist)
+    # display_varying(db, db_field, category=db_category.track)
+    display_varying(db, db_field, category=db_category.album)
 

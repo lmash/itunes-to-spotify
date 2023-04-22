@@ -1,13 +1,14 @@
 from tinydb import TinyDB
 import csv
 
-from enums import filepath, db_name
+from enums import filepath, db_name, Field
 
 input_file = 'music.csv'
 
 
 def read_csv():
     db = TinyDB(filepath / db_name)
+    field = Field()
 
     with open(filepath / input_file, newline='') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')

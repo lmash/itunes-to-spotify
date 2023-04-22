@@ -51,3 +51,16 @@ track_partial = [
     Replace(search_source=r'Don t Stop Beleiving', target='Don t Stop Believing'),
     Replace(search_source=r'Are You Gunna Be My Girl', target='Are You Gonna Be My Girl'),
 ]
+
+artist_full = [
+    Replace(search_source=r'Pink', source='', target='P!nk'),
+    Replace(search_source=r'Heitor Pereira', source='Heitor Pereira', target=''),
+    Replace(search_source=r'Lebo M', source='Lebo M', target=''),
+    Replace(search_source=r'Original London Cast of "The Phantom of the Opera"', source='', target=''),
+    Replace(search_source=r'Christina Perria', source='', target='Christina Perri'),
+    Replace(search_source=r'Four Tips', source='', target='Four Tops'),
+]
+
+artist_partial = [
+
+]

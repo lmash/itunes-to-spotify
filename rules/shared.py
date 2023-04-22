@@ -25,7 +25,7 @@ def _partial_replacement(replacement: Replace, db, search_api: str):
         db.update({search_api: replaced}, doc_ids=(row.__dict__['doc_id'],))
 
 
-def replace_partial(replacements: List, db, search_api='album_search_api'):
+def replace_partial(replacements: List, db, search_api: str):
     """
     Partial replacements as defined in replacements dataclass
     """
