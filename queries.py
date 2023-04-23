@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # display_genres(db)
 
     # Varying
-    display_varying(db, db_field, category=db_category.artist)
+    # display_varying(db, db_field, category=db_category.artist)
     # display_varying(db, db_field, category=db_category.track)
-    # display_varying(db, db_field, category=db_category.album)
+    display_varying(db, db_field, category=db_category.album)
 

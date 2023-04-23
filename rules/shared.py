@@ -58,3 +58,15 @@ def replace_full(replacements: List, db, search_api: str):
     """
     for replacement in replacements:
         _full_replacement(replacement, db, search_api=search_api)
+
+
+def identify_singles(db):
+    """
+    Albums which contain - Single are singles, mark as such to be excluded from album uri searches
+    """
+    rows = db.search(Query().album_search_api.search("- Single"))
+
+    for row in rows:
+        if not row['single']:
+            print(f"Single identified {row['album_search_api']}")
+            db.update({'single': True}, doc_ids=(row.__dict__['doc_id'],))
