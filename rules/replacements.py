@@ -1,12 +1,12 @@
 from dataclasses import dataclass
+from enums import Field
 
 
 @dataclass
 class Replace:
-    search_source: str   # Regex search to identify all DB rows
+    search_source: str  # Regex search to identify all DB rows
     target: str
-    source: str = None   # String search for search replace logic, default to search_source if not specified
-
+    source: str = None  # String search for search replace logic, default to search_source if not specified
 
 
 """
@@ -28,8 +28,10 @@ album_partial = [
     Replace(search_source=r'\[Deluxe Edition\]', source='[Deluxe Edition]', target=''),
     Replace(search_source=r'\(Deluxe Version\)', source='(Deluxe Version)', target=''),
     Replace(search_source=r'The Best Of Bob Dylan I', source='The Best Of Bob Dylan I', target='The Best Of Bob Dylan'),
-    Replace(search_source=r'Diarios De Motocicleta: Original Motion Picture Soundtrack', source='Diarios De Motocicleta: Original Motion Picture Soundtrack', target='Motorcycle Diaries'),
-    Replace(search_source=r'The Essential Aerosmith', source='The Essential Aerosmith', target='The Very Best of Aerosmith'),
+    Replace(search_source=r'Diarios De Motocicleta: Original Motion Picture Soundtrack',
+            source='Diarios De Motocicleta: Original Motion Picture Soundtrack', target='Motorcycle Diaries'),
+    Replace(search_source=r'The Essential Aerosmith', source='The Essential Aerosmith',
+            target='The Very Best of Aerosmith'),
 ]
 
 track_partial = [
@@ -48,19 +50,45 @@ track_partial = [
     Replace(search_source=r'\(Remastered 2018\)', source='(Remastered 2018)', target=''),
     Replace(search_source=r'Z\. 570 "Moor''s Revenge"', source='Z. 570 "Moor''s Revenge"', target='Z.570'),
     Replace(search_source=r'\(Single Version\) \[Mono\]', source='(Single Version) [Mono]', target=''),
-    Replace(search_source=r'Don t Stop Beleiving', target='Don t Stop Believing'),
+    Replace(search_source=r"Don't Stop Beleiving", target='Don t Stop Believing'),
     Replace(search_source=r'Are You Gunna Be My Girl', target='Are You Gonna Be My Girl'),
+    Replace(search_source=r'Mambo 5 Dancing Queen', target='Dancing Queen'),
 ]
 
 artist_full = [
-    Replace(search_source=r'Pink', source='', target='P!nk'),
-    Replace(search_source=r'Heitor Pereira', source='Heitor Pereira', target=''),
-    Replace(search_source=r'Lebo M', source='Lebo M', target=''),
-    Replace(search_source=r'Original London Cast of "The Phantom of the Opera"', source='', target=''),
-    Replace(search_source=r'Christina Perria', source='', target='Christina Perri'),
-    Replace(search_source=r'Four Tips', source='', target='Four Tops'),
+    Replace(search_source=r'Pink', target='P!nk'),
+    Replace(search_source=r'Heitor Pereira', target=''),
+    Replace(search_source=r'Lebo M', target=''),
+    Replace(search_source=r'Original London Cast of "The Phantom of the Opera"', target=''),
+    Replace(search_source=r'Christina Perria', target='Christina Perri'),
+    Replace(search_source=r'Four Tips', target='Four Tops'),
 ]
 
 artist_partial = [
-
+    Replace(search_source=r' & ', target=','),
+    Replace(search_source=r'JET', target='Jet'),
 ]
+
+
+@dataclass
+class Skip:
+    search_source: str
+    search_api: Field
+
+
+field = Field()
+
+skip_list = (
+    Skip(search_source=r'Salsa Nation', search_api=field.album_search_api),
+    Skip(search_source=r'Salsa Nation 3', search_api=field.album_search_api),
+    Skip(search_source=r'The Monkeys Are Breaking Out Of The Zoo', search_api=field.track_search_api),
+    Skip(search_source=r'Go Go Ninja Dinosaur', search_api=field.track_search_api),
+    Skip(search_source=r'Television Father', search_api=field.track_search_api),
+    Skip(search_source=r'Let It Go \(From "Frozen"\) \[Multi-Language Medley\]', search_api=field.track_search_api),
+    Skip(search_source=r"Why Can't I Fall In Love", search_api=field.track_search_api),
+    Skip(search_source=r"Stan Stan Baby", search_api=field.track_search_api),
+    Skip(search_source=r'TGood times roll \(remix\)', search_api=field.track_search_api),
+    Skip(search_source=r'Anix', search_api=field.artist_search_api),
+    Skip(search_source=r'The Barcelona Pavilion', search_api=field.artist_search_api),
+    Skip(search_source=r'Ellora Ghosh', search_api=field.artist_search_api),
+)

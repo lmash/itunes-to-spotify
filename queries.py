@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 from enums import filepath, db_name, Field, Category
 
@@ -59,6 +59,28 @@ def display_genres(database):
         print(f"Apple Genre: {item}")
 
 
+def display_album(database, album_name, artist_name):
+    rows = database.search(Query().album_apple.search(album_name) & Query().artist_apple.search(artist_name))
+    for row in rows:
+        print(row)
+
+
+def display_album_artist_with_uri(database):
+    rows = database.all()
+    count = 0
+
+    for row in rows:
+        if row['album_uri'] == '':
+            count += 1
+
+    # rows = database.search(Query().album_uri.search(""))
+    # print(f"Total rows {total_rows} blank album and artist {len(rows)}")
+    # Record = Query()
+    # rows = database.search(Record.album_uri.matches('^$'))
+    # rows = database.search(Record.track_skip is True)
+    print(count)
+
+
 if __name__ == '__main__':
     db = TinyDB(filepath / db_name)
     db_field = Field()
@@ -70,5 +92,8 @@ if __name__ == '__main__':
     # Varying
     # display_varying(db, db_field, category=db_category.artist)
     # display_varying(db, db_field, category=db_category.track)
-    display_varying(db, db_field, category=db_category.album)
+    # display_varying(db, db_field, category=db_category.album)
+
+    # display_album(database=db, album_name='Gold', artist_name="ABBA")
+    display_album_artist_with_uri(database=db)
 

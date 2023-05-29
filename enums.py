@@ -29,3 +29,22 @@ class Category:
     artist = 'artist'
     track = 'track'
     album = 'album'
+
+
+from dataclasses import dataclass
+
+
+@dataclass
+class Basics:
+    apple: str
+    search_api: str
+    spotify: str
+    uri: str
+    track_skip: bool
+
+
+@dataclass
+class Track:
+    category: Category
+    basics: Basics
+
