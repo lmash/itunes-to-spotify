@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+import os
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from tinydb import TinyDB, Query
@@ -6,7 +8,11 @@ from typing import Dict
 from enums import filepath, db_name
 from data.api_requests import pickles
 
-auth_manager = SpotifyClientCredentials()
+load_dotenv()
+client_id = os.getenv("CLIENT_ID")
+client_secret = os.getenv("CLIENT_SECRET")
+
+auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 
@@ -22,7 +28,7 @@ def update_db_with_album_artist(database, album_name, album_uri, artist_name, ar
         }, doc_ids=(row.__dict__['doc_id'],))
 
 
-def is_saved_album_artist(requested_album_artist, album_name, artist_name):
+def get_saved_album_artist(requested_album_artist, album_name, artist_name):
     """If we have already requested historically use the pickled record"""
     if f"{album_name}|{artist_name}" in requested_album_artist:
         album_uri, artist_uri = requested_album_artist[f"{album_name}|{artist_name}"].split('|')
@@ -31,8 +37,13 @@ def is_saved_album_artist(requested_album_artist, album_name, artist_name):
         return None, None
 
 
-def search_spotify_by_album_and_artist(requested_album_artist: Dict, database: TinyDB, album_name, artist_name):
-    album_uri, artist_uri = is_saved_album_artist(requested_album_artist, album_name, artist_name)
+def search_spotify_by_album_and_artist(requested_album_artist: Dict, database: TinyDB, album_name, artist_name) -> Dict:
+    """
+    Accepts a dictionary of previously requested albums. If the current album was previously requested return.
+    Request new albums and add to the DB and the previously requested dictionary
+    """
+    album_uri, artist_uri = get_saved_album_artist(requested_album_artist, album_name, artist_name)
+
     if album_uri:
         update_db_with_album_artist(database, album_name, album_uri, artist_name, artist_uri)
         print(f'Found pickled entry for artist {artist_name} album {album_name}')
